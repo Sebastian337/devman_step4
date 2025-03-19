@@ -1,0 +1,18 @@
+from PIL import Image
+
+image = Image.open("monro.jpg")
+red, green, blue = image.split()
+coordinates_left = (100, 0, image.width, image.height)
+coordinates_right = (0, 0, image.width - 100, image.height)
+coordinates_midle = (50, 0, image.width - 50, image.height)
+cropped_red = red.crop(coordinates_left)
+cropped_red2 = red.crop(coordinates_midle)
+red_blend = Image.blend(cropped_red, cropped_red2, 0.5)
+cropped_blue = blue.crop(coordinates_right)
+cropped_blue2 = blue.crop(coordinates_midle)
+blue_blend = Image.blend(cropped_blue, cropped_blue2, 0.5)
+cropped_green = green.crop(coordinates_midle)
+monro_merge = Image.merge("RGB", (red_blend, blue_blend, cropped_green))
+monro_merge.save("monro_merge.jpg")
+monro_merge.thumbnail((80, 80))
+monro_merge.save("monro_merge2.jpg")
